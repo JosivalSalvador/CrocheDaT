@@ -10,7 +10,7 @@ const schema = Joi.object({
   categoryId: Joi.string().uuid().required(),
   photos: Joi.array().items(
     Joi.object({
-      titulo: Joi.string().min(1).required(),
+      title: Joi.string().min(1).required(),
       src: Joi.string().uri().required()
     })
   ).min(1).required()
