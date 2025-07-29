@@ -11,10 +11,6 @@
     "start:prod": "node build/index.js"
   },
 
-  "prisma":{
-    "seed": "tsx prisma/seed.ts"
-  },
-
   "keywords": [],
   "author": "",
   "license": "ISC",
