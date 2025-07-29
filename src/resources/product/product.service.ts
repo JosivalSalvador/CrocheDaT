@@ -4,7 +4,11 @@ import { CreateProductDTO } from './product.types';
 const prisma = new PrismaClient();
 
 export async function getAllProducts(): Promise<Product[]> {
-    return await prisma.product.findMany();
+  return await prisma.product.findMany({
+    include: {
+      category: true,
+    },
+  });
 }
 
 export async function createProduct(product: CreateProductDTO): Promise<Product> {
