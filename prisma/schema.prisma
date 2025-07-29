@@ -15,59 +15,24 @@ datasource db {
 
 
 model Product {
-  id String @id @default(uuid()) @db.Char(36)
-  name String @unique @db.VarChar(100)
-  price Decimal @db.Decimal(10,2)
-  stockQuantity Int @db.Int()
-  purchaseItems PurchaseItem[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             String   @id @default(uuid()) @db.Char(36)
+  name           String   @db.VarChar(100)
+  description    String   @db.Text
+  material       String   @db.VarChar(100)
+  productionTime String   @db.VarChar(50)
+  price          Decimal  @db.Decimal(10, 2)
+  photos         Json
+  categoryId     String   @db.Char(36)
+  category       Category @relation(fields: [categoryId], references: [id])
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
   @@index([name])
 }
 
-
-model User {
-  id String @id @default(uuid()) @db.Char(36)
-  name String @db.VarChar(100)
-  email String @unique @db.VarChar(100)
-  password String @db.Char(60)
-  userTypeId String @db.Char(36)
-  userType UserType @relation(fields: [userTypeId], references: [id])
-  purchases Purchase[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-model UserType {
-  id String @id @default(uuid()) @db.Char(36)
-  label String @db.VarChar(10)
-  User User[]
-}
-
-
-model Purchase {
-  id        String         @id @default(uuid()) @db.Char(40)
-  userId    String         @db.Char(40)
-  user      User           @relation(fields: [userId], references: [id])
-  items     PurchaseItem[] 
-  createdAt DateTime       @default(now())
-  updatedAt DateTime       @updatedAt
-
-  @@map("compras")
-}
-
-model PurchaseItem {
-  id         String   @id @default(uuid()) @db.Char(36)
-  purchaseId String   @db.Char(36)
-  productId  String   @db.Char(36)
-  quantity   Int      @db.Int()
-  purchase   Purchase @relation(fields: [purchaseId], references: [id])
-  product    Product  @relation(fields: [productId], references: [id])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  @@map("item_compra")
-
-  @@index([purchaseId])
-  @@index([productId])
+model Category {
+  id       String    @id @default(uuid()) @db.Char(36)
+  name     String    @db.VarChar(50)
+  products Product[]
 }
 
