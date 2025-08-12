@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --watch src --ext js,ts,json --exec tsx src/index.ts",
+    "start:dev": "nodemon --watch src --ext js,ts,json --exec tsx src/index.ts",
     "build": "tsc",
     "docker:up": "docker compose -f tools/docker-compose.yml up -d",
     "docker:down": "docker compose -f tools/docker-compose.yml down",
     "swagger": "tsx src/swagger.ts",
-    "start:prod": "node build/index.js"
+    "start": "node build/index.js"
   },
   "keywords": [],
   "author": "",
