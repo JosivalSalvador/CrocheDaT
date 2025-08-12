@@ -13,7 +13,7 @@ dotenv.config();
 validateEnv()
 
 const app = express();
-const PORT = process.env.PORT ?? 3366;
+const PORT = parseInt(process.env.PORT ?? "3366" , 10);
 
 app.use(cors());
 app.use(express.json());
@@ -22,6 +22,6 @@ app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.use(router);
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Servidor: http://localhost:${PORT}`);
 });
