@@ -7,7 +7,15 @@ import swaggerUi from "swagger-ui-express";
 import swaggerFile from "./swagger-output.json";
 import cors from "cors";
 
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import { v4 as uuidv4 } from 'uuid';
 
+declare module "express-session" {
+  interface SessionData {
+    user: string;
+  }
+}
 
 dotenv.config();
 validateEnv()
@@ -17,6 +25,17 @@ const PORT = parseInt(process.env.PORT ?? "3366" , 10);
 
 app.use(cors());
 app.use(express.json());
+
+app.use(cookieParser());
+
+app.use(session({
+  genid: (req) => uuidv4(),
+  secret: process.env.SESSION_SECRET ?? "Hi9Cf#mK98",
+  resave: false,
+  saveUninitialized: false,
+  cookie: {secure: true}
+
+}));
 
 app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 

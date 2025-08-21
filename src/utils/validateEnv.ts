@@ -6,5 +6,8 @@ export function validateEnv(){
         NODE_ENV: str({choices:["development", "production"]}),
         DATABASE_URL: url(),
         BCRYPT_SALT_ROUNDS: num(),
+        ADMIN_PASSWORD: str(),
+        ADMIN_USER: str(),
+        SESSION_SECRET: str(),
     })
 }
