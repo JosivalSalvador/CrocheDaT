@@ -29,6 +29,7 @@ const allowedOrigins = [
   "https://crochedat.vercel.app"
 ];
 
+app.set('trust proxy', 1);
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true); // Insomnia/Postman
