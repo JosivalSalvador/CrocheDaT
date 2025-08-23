@@ -62,5 +62,11 @@ const logout = async (req: Request, res: Response) => {
     }
 };
 
-
-export default { login, logout };
+const session = async (req: Request, res: Response) => {
+    if (req.session.user) {
+        res.json({ authenticated: true, user: req.session.user });
+    }else{
+        res.json({ authenticated: false });
+    }
+}
+export default { login, logout, session };

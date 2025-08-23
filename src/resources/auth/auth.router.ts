@@ -7,5 +7,6 @@ const router = Router();
 
 router.post('/login', authController.login);
 router.post('/logout', isAuth , authController.logout);
+router.get('/session', authController.session)
 
 export default router;
