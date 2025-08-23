@@ -54,6 +54,7 @@ app.use(session({
     secure: true,     // precisa HTTPS
     httpOnly: true,   // protege contra JS
     sameSite: "none", // 🔑 permite cookie entre domínios diferentes
+    path: "/",
   }
 }));
 
