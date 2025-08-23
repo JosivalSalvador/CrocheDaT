@@ -31,13 +31,11 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
+    if (!origin) return callback(null, true); // permite requests sem origin (Insomnia, Postman)
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(null, false); // ❌ não retorna erro 500
   },
-  credentials: true, // 🔑 ESSENCIAL quando o front usa withCredentials
+  credentials: true,
 }));
 
 
