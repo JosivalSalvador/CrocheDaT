@@ -49,7 +49,7 @@ app.use(session({
   genid: () => uuidv4(),
   secret: process.env.SESSION_SECRET ?? "Hi9Cf#mK98",
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
     secure: true,     // precisa HTTPS
     httpOnly: true,   // protege contra JS
