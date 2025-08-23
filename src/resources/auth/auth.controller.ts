@@ -15,17 +15,18 @@ const login = async (req: Request, res: Response) => {
         } else {
             const match = await bcrypt.compare(password, process.env.ADMIN_PASSWORD ?? "")
             if (user === process.env.ADMIN_USER && match) {
-                res.status(StatusCodes.UNAUTHORIZED).json({
-                    error: "Unauthorized",
-                    message: "Email e/ou senha incorretos.",
-                });
-            } else {
-                req.session.user = user
+                req.session.user = user;
 
                 res.status(StatusCodes.OK).json({
                     message: "Usuário autenticado com sucesso.",
                 });
-            }
+            } else {
+                res.status(StatusCodes.UNAUTHORIZED).json({
+                    error: "Unauthorized",
+                    message: "Email e/ou senha incorretos.",
+            });
+}
+
         }
     } catch (err) {
         console.error(err);
