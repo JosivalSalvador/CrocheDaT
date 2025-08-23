@@ -31,15 +31,15 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: (origin, callback) => {
-    // requests sem origin (ex: Insomnia, cURL) -> permitir
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true, // 🔑 permite envio de cookies
+  credentials: true, // 🔑 ESSENCIAL quando o front usa withCredentials
 }));
+
 
 app.use(express.json());
 
@@ -49,7 +49,7 @@ app.use(session({
   genid: () => uuidv4(),
   secret: process.env.SESSION_SECRET ?? "Hi9Cf#mK98",
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   cookie: {
     secure: true,     // precisa HTTPS
     httpOnly: true,   // protege contra JS
