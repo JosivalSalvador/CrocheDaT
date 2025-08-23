@@ -23,18 +23,38 @@ validateEnv()
 const app = express();
 const PORT = parseInt(process.env.PORT ?? "3366" , 10);
 
-app.use(cors());
+// 🔑 Origens permitidas
+const allowedOrigins = [
+  "https://croche-da-t-painel.vercel.app",
+  "https://crochedat.vercel.app"
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // requests sem origin (ex: Insomnia, cURL) -> permitir
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true, // 🔑 permite envio de cookies
+}));
+
 app.use(express.json());
 
 app.use(cookieParser());
 
 app.use(session({
-  genid: (req) => uuidv4(),
+  genid: () => uuidv4(),
   secret: process.env.SESSION_SECRET ?? "Hi9Cf#mK98",
   resave: false,
   saveUninitialized: false,
-  cookie: {secure: true}
-
+  cookie: {
+    secure: true,     // precisa HTTPS
+    httpOnly: true,   // protege contra JS
+    sameSite: "none", // 🔑 permite cookie entre domínios diferentes
+  }
 }));
 
 app.use("/api", swaggerUi.serve, swaggerUi.setup(swaggerFile));
